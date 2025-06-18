@@ -107,19 +107,19 @@ if uploaded_file:
     else:
         df_output, payment_cols = hitung_kepatuhan(df_input.copy(), tahun_pajak)
 
-        with st.sidebar:
-            st.header("🔍 Filter Data")
+        col1, col2 = st.columns([1, 3])
+        
+        with col1:
+            st.markdown("### 🔍 Filter Data")
             selected_unit = st.selectbox("🏢 Pilih UPPPD", ["Semua"] + sorted(df_output["Nm Unit"].dropna().unique().tolist()))
-            if selected_unit != "Semua":
-                df_output = df_output[df_output["Nm Unit"] == selected_unit]
-
             selected_klasifikasi = st.selectbox("📂 Pilih Klasifikasi Pajak", ["Semua"] + sorted(df_output["KLASIFIKASI"].dropna().unique().tolist()))
-            if selected_klasifikasi != "Semua":
-                df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
-
             selected_status = st.selectbox("📌 Pilih Status OP", ["Semua"] + sorted(df_output["STATUS"].dropna().unique().tolist()))
-            if selected_status != "Semua":
-                df_output = df_output[df_output["STATUS"] == selected_status]
+        
+        with col2:
+            # taruh semua visualisasi dan output
+            st.success("✅ Data berhasil diproses dan difilter!")
+            st.dataframe(df_output.head(50), use_container_width=True)
+
 
         st.success("✅ Data berhasil diproses dan difilter!")
         df_output = df_output.loc[:, ~df_output.columns.duplicated()]
