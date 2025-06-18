@@ -116,14 +116,20 @@ if uploaded_file:
             selected_status = st.selectbox("📌 Pilih Status OP", ["Semua"] + sorted(df_output["STATUS"].dropna().unique().tolist()))
         
         with col2:
-            # taruh semua visualisasi dan output
+            # Terapkan filter berdasarkan dropdown
+            if selected_unit != "Semua":
+                df_output = df_output[df_output["Nm Unit"] == selected_unit]
+        
+            if selected_klasifikasi != "Semua":
+                df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
+        
+            if selected_status != "Semua":
+                df_output = df_output[df_output["STATUS"] == selected_status]
+        
+            # Sekarang tampilkan output
             st.success("✅ Data berhasil diproses dan difilter!")
             st.dataframe(df_output.head(50), use_container_width=True)
 
-
-        st.success("✅ Data berhasil diproses dan difilter!")
-        df_output = df_output.loc[:, ~df_output.columns.duplicated()]
-        st.dataframe(df_output.head(51), use_container_width=True)
 
         output = BytesIO()
         df_output.to_excel(output, index=False)
