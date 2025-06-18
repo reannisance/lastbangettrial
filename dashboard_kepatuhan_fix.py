@@ -123,7 +123,7 @@ if uploaded_file:
 
         st.success("✅ Data berhasil diproses dan difilter!")
         df_output = df_output.loc[:, ~df_output.columns.duplicated()]
-        st.dataframe(df_output.head(30), use_container_width=True)
+        st.dataframe(df_output.head(51), use_container_width=True)
 
         output = BytesIO()
         df_output.to_excel(output, index=False)
