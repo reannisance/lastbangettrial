@@ -138,6 +138,26 @@ if uploaded_file:
         df_output.to_excel(output, index=False)
         st.download_button("⬇️ Download Hasil Excel", data=output.getvalue(), file_name="hasil_dashboard.xlsx")
 
+        st.subheader("🥧 Pie Chart Kepatuhan WP")
+
+        if "Klasifikasi Kepatuhan" in df_output.columns and not df_output.empty:
+            pie_data = df_output["Klasifikasi Kepatuhan"].value_counts().reset_index()
+            pie_data.columns = ["Klasifikasi", "Jumlah"]
+
+            fig_pie = px.pie(
+                pie_data,
+                names="Klasifikasi",
+                values="Jumlah",
+                title="Distribusi Kepatuhan WP",
+                color_discrete_sequence=px.colors.qualitative.Pastel,
+                hole=0.3  # bisa dihapus kalau mau pie chart penuh
+            )
+            fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+            st.plotly_chart(fig_pie, use_container_width=True)
+        else:
+            st.info("📭 Tidak ada data kepatuhan yang tersedia untuk ditampilkan dalam pie chart.")
+
+
         st.subheader("📈 Tren Pembayaran Pajak per Bulan")
         if payment_cols:
             bulanan = df_output[payment_cols].sum().reset_index()
