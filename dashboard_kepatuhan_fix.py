@@ -145,7 +145,7 @@ if uploaded_file:
         
                 fig_line = px.line(
                     bulanan,
-                    x="BulanLabel",
+                    x="Bulan",
                     y="Total Pembayaran",
                     title="Total Pembayaran Pajak per Bulan",
                     markers=True
