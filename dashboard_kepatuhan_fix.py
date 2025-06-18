@@ -107,28 +107,25 @@ if uploaded_file:
     else:
         df_output, payment_cols = hitung_kepatuhan(df_input.copy(), tahun_pajak)
 
-        col1, col2 = st.columns([1, 3])
-        
-        with col1:
+        with st.sidebar:
             st.markdown("### 🔍 Filter Data")
             selected_unit = st.selectbox("🏢 Pilih UPPPD", ["Semua"] + sorted(df_output["Nm Unit"].dropna().unique().tolist()))
             selected_klasifikasi = st.selectbox("📂 Pilih Klasifikasi Pajak", ["Semua"] + sorted(df_output["KLASIFIKASI"].dropna().unique().tolist()))
             selected_status = st.selectbox("📌 Pilih Status OP", ["Semua"] + sorted(df_output["STATUS"].dropna().unique().tolist()))
         
-        with col2:
-            # Terapkan filter berdasarkan dropdown
-            if selected_unit != "Semua":
-                df_output = df_output[df_output["Nm Unit"] == selected_unit]
+        # Terapkan filter berdasarkan dropdown
+        if selected_unit != "Semua":
+            df_output = df_output[df_output["Nm Unit"] == selected_unit]
         
-            if selected_klasifikasi != "Semua":
-                df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
+        if selected_klasifikasi != "Semua":
+            df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
         
-            if selected_status != "Semua":
-                df_output = df_output[df_output["STATUS"] == selected_status]
+        if selected_status != "Semua":
+            df_output = df_output[df_output["STATUS"] == selected_status]
         
-            # Sekarang tampilkan output
-            st.success("✅ Data berhasil diproses dan difilter!")
-            st.dataframe(df_output.head(50), use_container_width=True)
+        # Tampilkan hasil di area utama
+        st.success("✅ Data berhasil diproses dan difilter!")
+        st.dataframe(df_output.head(50), use_container_width=True)
 
 
         output = BytesIO()
