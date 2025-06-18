@@ -107,13 +107,19 @@ if uploaded_file:
     else:
         df_output, payment_cols = hitung_kepatuhan(df_input.copy(), tahun_pajak)
 
-        with st.sidebar:
-            st.markdown("### 🔍 Filter Data")
-            selected_unit = st.selectbox("🏢 Pilih UPPPD", ["Semua"] + sorted(df_output["Nm Unit"].dropna().unique().tolist()))
-            selected_klasifikasi = st.selectbox("📂 Pilih Klasifikasi Pajak", ["Semua"] + sorted(df_output["KLASIFIKASI"].dropna().unique().tolist()))
-            selected_status = st.selectbox("📌 Pilih Status OP", ["Semua"] + sorted(df_output["STATUS"].dropna().unique().tolist()))
+        st.markdown("### 🔍 Filter Data")
+        filter_col1, filter_col2, filter_col3 = st.columns(3)
         
-        # Terapkan filter berdasarkan dropdown
+        with filter_col1:
+            selected_unit = st.selectbox("🏢 UPPPD", ["Semua"] + sorted(df_output["Nm Unit"].dropna().unique().tolist()))
+        
+        with filter_col2:
+            selected_klasifikasi = st.selectbox("📂 Klasifikasi Pajak", ["Semua"] + sorted(df_output["KLASIFIKASI"].dropna().unique().tolist()))
+        
+        with filter_col3:
+            selected_status = st.selectbox("📌 Status OP", ["Semua"] + sorted(df_output["STATUS"].dropna().unique().tolist()))
+        
+        # Terapkan filter
         if selected_unit != "Semua":
             df_output = df_output[df_output["Nm Unit"] == selected_unit]
         
@@ -121,11 +127,7 @@ if uploaded_file:
             df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
         
         if selected_status != "Semua":
-            df_output = df_output[df_output["STATUS"] == selected_status]
-        
-        # Tampilkan hasil di area utama
-        st.success("✅ Data berhasil diproses dan difilter!")
-        st.dataframe(df_output.head(50), use_container_width=True)
+            df_output = df_output[df_output["STATUS"] == sel_]()
 
 
         output = BytesIO()
