@@ -127,7 +127,7 @@ if uploaded_file:
             df_output = df_output[df_output["KLASIFIKASI"] == selected_klasifikasi]
         
         if selected_status != "Semua":
-            df_output = df_output[df_output["STATUS"] == sel_]()
+            df_output = df_output[df_output["STATUS"] == selected_status]()
 
 
         output = BytesIO()
