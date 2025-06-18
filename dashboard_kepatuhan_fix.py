@@ -7,16 +7,6 @@ import plotly.express as px
 st.set_page_config(page_title="🎨 Dashboard Kepatuhan Pajak Daerah", layout="wide")
 st.title("🎯 Dashboard Kepatuhan Pajak Daerah")
 
-# ⬇️ TAMBAHKAN INI UNTUK MEMAKSA SIDEBAR SELALU TERBUKA
-hide_sidebar_style = """
-    <style>
-    [data-testid="collapsedControl"] {
-        display: none !important;
-    }
-    </style>
-"""
-st.markdown(hide_sidebar_style, unsafe_allow_html=True)
-
 with st.expander("📌 Panduan Penggunaan Dashboard", expanded=False):
     st.markdown("""
     **Format Excel yang Didukung:**
