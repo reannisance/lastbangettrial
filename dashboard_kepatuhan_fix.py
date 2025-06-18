@@ -135,15 +135,25 @@ if uploaded_file:
             bulanan.columns = ["Bulan", "Total Pembayaran"]
             bulanan["Bulan"] = pd.to_datetime(bulanan["Bulan"], errors="coerce")
             bulanan = bulanan[bulanan["Bulan"].dt.year == tahun_pajak]
+            
             if bulanan.empty:
                 st.warning(f"📭 Tidak ada data pembayaran untuk tahun {tahun_pajak}.")
             else:
-                bulanan["Bulan"] = bulanan["Bulan"].dt.strftime('%b %Y')
-                bulanan = bulanan.sort_values("Bulan")
-                fig_line = px.line(bulanan, x="Bulan", y="Total Pembayaran", title="Total Pembayaran Pajak per Bulan", markers=True)
+                bulanan["BulanSort"] = bulanan["Bulan"]
+                bulanan["BulanLabel"] = bulanan["Bulan"].dt.strftime('%b %Y')
+                bulanan = bulanan.sort_values("BulanSort")
+        
+                fig_line = px.line(
+                    bulanan,
+                    x="BulanLabel",
+                    y="Total Pembayaran",
+                    title="Total Pembayaran Pajak per Bulan",
+                    markers=True
+                )
                 st.plotly_chart(fig_line, use_container_width=True)
         else:
             st.warning("📭 Tidak ditemukan kolom pembayaran murni yang valid.")
+
 
         st.subheader("🏅 Top 5 Objek Pajak Berdasarkan Total Pembayaran")
         top_wp = (
