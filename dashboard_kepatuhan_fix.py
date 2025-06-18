@@ -42,20 +42,17 @@ def normalisasi_kolom(df):
     return df
 
 def konversi_kolom_bulan(df):
-    def konversi(nama):
-        if isinstance(nama, datetime):
-            return nama
+    new_cols = []
+    for col in df.columns:
         try:
-            return pd.to_datetime(nama, format='%b-%y')
+            # coba ubah ke datetime dan ambil bulan (to_period)
+            dt = pd.to_datetime(col, errors='raise')
+            # ubah ke awal bulan (format bulanan)
+            dt_month = dt.to_period('M').to_timestamp()
+            new_cols.append(dt_month)
         except:
-            try:
-                return pd.to_datetime(nama, format='%b %Y')
-            except:
-                try:
-                    return pd.to_datetime(nama, dayfirst=True)
-                except:
-                    return nama
-    df.columns = [konversi(col) for col in df.columns]
+            new_cols.append(col)
+    df.columns = new_cols
     return df
 
 def hitung_kepatuhan(df, tahun_pajak):
