@@ -129,6 +129,10 @@ if uploaded_file:
         if selected_status != "Semua":
             df_output = df_output[df_output["STATUS"] == selected_status]()
 
+        st.success("✅ Data berhasil diproses dan difilter!")
+        st.dataframe(df_output.head(50), use_container_width=True)
+
+
 
         output = BytesIO()
         df_output.to_excel(output, index=False)
